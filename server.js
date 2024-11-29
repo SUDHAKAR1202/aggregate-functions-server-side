@@ -5,7 +5,20 @@ const cors = require('cors');
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors(
+    {
+        origin: 'https://aggregate-functions-client-side.vercel.app', 
+        methods: ['GET', 'POST'], 
+        allowedHeaders: ['Content-Type'], 
+      }
+));
+
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'https://aggregate-functions-client-side.vercel.app');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+  });
 
 //MongoDB connection
 mongoose.connect('mongodb://localhost:27017/aggregatedb', {
